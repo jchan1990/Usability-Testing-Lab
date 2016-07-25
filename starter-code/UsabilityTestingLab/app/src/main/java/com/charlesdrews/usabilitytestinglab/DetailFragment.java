@@ -13,13 +13,13 @@ import android.webkit.WebViewClient;
 /**
  * This fragment will show "detail" for the selected Zodiac sign by loading a relevant
  * website in a WebView.
- *
+ * <p/>
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class DetailFragment extends Fragment {
     //the full URL will be this beginning part + the selected zodiac sign String at the end
-    private static final String URL_BEGINNING ="http://www.horoscopedates.com/zodiac-signs/";
+    private static final String URL_BEGINNING = "http://www.horoscopedates.com/zodiac-signs/";
 
     private WebView mWebView;
 
@@ -51,5 +51,6 @@ public class DetailFragment extends Fragment {
 
     public void updateWebView(String selectedSign) {
         //TODO - look up how to load a URL in a webview
+        mWebView.loadUrl(URL_BEGINNING + selectedSign);
     }
 }

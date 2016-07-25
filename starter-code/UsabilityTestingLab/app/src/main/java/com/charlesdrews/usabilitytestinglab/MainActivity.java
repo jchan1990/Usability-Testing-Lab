@@ -3,6 +3,7 @@ package com.charlesdrews.usabilitytestinglab;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity
@@ -24,15 +25,31 @@ public class MainActivity extends AppCompatActivity
         //TODO determine which layout file is being used (hint: is there an element in the large-screen
         //TODO  layout that's not in the regular layout?) and if the large screen layout is being used,
         //TODO  then load the detail fragment in MainActivity rather than using DetailActivity
+
+        View containerDetail = findViewById(R.id.detail_fragment_container);
+
+        if (containerDetail != null && containerDetail.getVisibility() == View.VISIBLE) {
+            mScreenIsLageEnoughForTwoPanes = true;
+            mDetailFragment = DetailFragment.newInstance(savedInstanceState);
+            getSupportFragmentManager().beginTransaction().add(R.id.detail_fragment_container, mDetailFragment).commit();
+        }
     }
 
     @Override
     public void onZodiacSignSelected(String zodiacSignSelected) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.SIGN_KEY, zodiacSignSelected);
-        startActivity(intent);
+//        Intent intent = new Intent(this, DetailActivity.class);
+//        intent.putExtra(DetailActivity.SIGN_KEY, zodiacSignSelected);
+//        startActivity(intent);
 
         //TODO - if the detail fragment is loaded into MainActivity, update it rather than launching
         //TODO      the DetailActivity
+
+        if (mScreenIsLageEnoughForTwoPanes == true) {
+            mDetailFragment.updateWebView(zodiacSignSelected);
+        } else {
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra(DetailActivity.SIGN_KEY, zodiacSignSelected);
+            startActivity(intent);
+        }
     }
 }
